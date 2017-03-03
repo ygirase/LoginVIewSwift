@@ -24,6 +24,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     
     //Variable
     var stringGender = "Male"
+    var loginUserDetails = [String: Any]()
     
     
     //Mark: - ViewController Life Cycle
@@ -50,6 +51,15 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
             Utility.showAlertOnViewController(targetVC: self, title: "LoginView", message: KValidEmail)
             return
         }
+        self.gotoLoginDetailViewController()
+      
+    }
+    
+    func gotoLoginDetailViewController()  {
+        loginUserDetails = ["profilepic": buttonProfilePicture.currentImage as Any, "username": self.textfieldUserName.text!, "email": self.textfieldEmail.text! , "phonenumber": self.textfieldPhonenumber.text!, "dateofbirth": self.textfiledDateOfBirth.text!, "gender": stringGender]
+        let loginDetails = self.storyboard?.instantiateViewController(withIdentifier: "LoginDetailController") as! LoginDetailController
+        loginDetails.loginUserDetails = loginUserDetails
+        self.navigationController?.pushViewController(loginDetails, animated: true)
     }
     
     // MARK: - Button Actions
@@ -75,6 +85,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
             self.stringGender = "Female"
         }
         print(self.stringGender)
+        
     }
     
     @IBAction func actionDateOfBirth(_ sender: Any) {
@@ -107,6 +118,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         
         let cameraActionButton: UIAlertAction = UIAlertAction(title: "Camera", style: .default)
         { action -> Void in
+            
             self.cameraAccessPermission(sourceType: .camera)
         }
         actionSheetController.addAction(cameraActionButton)
@@ -148,7 +160,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
                 
                 let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
                 if let url = settingsUrl {
-                    UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }))
             self.present(alert, animated: true, completion: nil)
@@ -164,7 +180,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
                 
                 let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
                 if let url = settingsUrl {
-                    UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }))
             

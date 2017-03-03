@@ -10,12 +10,33 @@ import UIKit
 
 class LoginDetailController: UIViewController {
 
+    var loginUserDetails = [String: Any]()
+    
+    @IBOutlet weak var ProfilePicture: UIImageView!
+    @IBOutlet weak var labelUserName: UILabel!
+    @IBOutlet weak var labelEmail: UILabel!
+    @IBOutlet weak var labelPhoneNumber: UILabel!
+    @IBOutlet weak var labelDateOfBirth: UILabel!
+    @IBOutlet weak var labelGender: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        self.setupLoginUserDetails()
     }
 
+    func setupLoginUserDetails () {
+        
+        self.ProfilePicture.image = self.loginUserDetails["profilepic"] as! UIImage?
+        self.labelUserName.text = String(format:"Name: %@", (self.loginUserDetails["username"] as! String?)!)
+        self.labelEmail.text =  String(format:"Email: %@",(self.loginUserDetails["email"] as! String?)!)
+        self.labelPhoneNumber.text = String(format:"PhoneNumber: %@",(self.loginUserDetails["phonenumber"] as! String?)!)
+        self.labelDateOfBirth.text = String(format:"DateOfBirth: %@",(self.loginUserDetails["dateofbirth"] as! String?)!)
+        self.labelGender.text = String(format:"Gender: %@",(self.loginUserDetails["gender"] as! String?)!)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
